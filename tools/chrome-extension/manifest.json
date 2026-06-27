@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "競馬JSON取得",
+  "version": "1.0",
+  "description": "netkeibaのページからJSONを取得してダウンロードする",
+  "permissions": ["scripting", "activeTab"],
+  "host_permissions": ["https://race.netkeiba.com/*", "http://localhost:3500/"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "競馬JSON取得"
+  }
+}
