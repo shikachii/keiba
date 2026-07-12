@@ -1,3 +1,7 @@
 data/
 races/
 tools/playwright/node_modules/
+web/node_modules/
+web/dist/
+web/public/api/
+web/*.tsbuildinfo

@@ -1,0 +1,32 @@
+{
+  "name": "keiba-races-viewer",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview",
+    "build:data": "node scripts/build-data.mjs",
+    "build:pages": "npm run build:data && GH_PAGES=true vite build",
+    "preview:pages": "GH_PAGES=true vite preview",
+    "deploy": "npm run build:pages && gh-pages -d dist"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
+    "react-markdown": "^9.0.1",
+    "remark-gfm": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "gh-pages": "^6.1.1",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.1"
+  }
+}

@@ -138,3 +138,6 @@
 同一ルールIDで ❌ が3回以上蓄積した場合、そのルールの見直しを検討する。
 
 ### `data/html/` — 取得済みHTMLの一時保管
+
+### `web/` — races/ Webビューア（閲覧専用）
+`races/`配下の出馬表・結果・予想・振り返り・ルール適用ログをブラウザで視覚的に閲覧するNode/React製ツール。`cd web && npm install && npm run dev` で起動し `http://localhost:5173/` を開く。外出先から確認したい場合は `npm run deploy` でGitHub Pagesへ反映できる（詳細は`web/README.md`）。
