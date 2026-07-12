@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { apiUrl, useApi } from '../api/client.ts';
 import type { RaceListItem, RaceStatus } from '../api/types.ts';
 import { StatusBadge } from '../components/StatusBadge.tsx';
@@ -13,8 +13,17 @@ function formatDate(date: string): string {
 
 export function RaceListPage() {
   const { data, loading, error } = useApi<RaceListItem[]>(apiUrl('races.json'));
-  const [statusFilter, setStatusFilter] = useState<RaceStatus | 'すべて'>('すべて');
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const statusFilter = (searchParams.get('status') as RaceStatus | null) ?? 'すべて';
+  const setStatusFilter = (value: RaceStatus | 'すべて') => {
+    if (value === 'すべて') {
+      setSearchParams({}, { replace: true });
+    } else {
+      setSearchParams({ status: value }, { replace: true });
+    }
+  };
 
   const grouped = useMemo(() => {
     if (!data) return [];
@@ -42,7 +51,10 @@ export function RaceListPage() {
       <div className="filter-bar">
         <label>
           ステータス絞り込み:{' '}
-          <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as RaceStatus | 'すべて')}>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as RaceStatus | 'すべて')}
+          >
             {STATUS_FILTERS.map((s) => (
               <option key={s} value={s}>
                 {s}

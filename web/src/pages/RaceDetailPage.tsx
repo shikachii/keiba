@@ -1,8 +1,9 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { apiUrl, useApi } from '../api/client.ts';
 import type { RaceDetail } from '../api/types.ts';
 import { Spinner, ErrorBox } from '../components/Spinner.tsx';
 import { StatusBadge } from '../components/StatusBadge.tsx';
+import { BackLink } from '../components/BackLink.tsx';
 import { Tabs, type TabDef } from '../components/Tabs.tsx';
 import { HorseTable } from '../components/HorseTable.tsx';
 import { ResultTable } from '../components/ResultTable.tsx';
@@ -62,9 +63,7 @@ export function RaceDetailPage() {
   return (
     <div>
       <header className="page-header">
-        <Link to="/" className="header-link">
-          ← 一覧に戻る
-        </Link>
+        <BackLink label="← 一覧に戻る" />
       </header>
 
       <div className="race-detail-header">

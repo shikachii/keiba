@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { apiUrl, useApi } from '../api/client.ts';
 import type { RulesLogResponse } from '../api/types.ts';
 import { Spinner, ErrorBox } from '../components/Spinner.tsx';
 import { MarkdownView } from '../components/MarkdownView.tsx';
+import { BackLink } from '../components/BackLink.tsx';
 
 export function RulesLogPage() {
   const { data, loading, error } = useApi<RulesLogResponse>(apiUrl('rules-log.json'));
@@ -23,9 +23,7 @@ export function RulesLogPage() {
   return (
     <div>
       <header className="page-header">
-        <Link to="/" className="header-link">
-          ← 一覧に戻る
-        </Link>
+        <BackLink label="← 一覧に戻る" />
       </header>
       <h1>ルール適用ログ</h1>
       <div className="filter-bar">
