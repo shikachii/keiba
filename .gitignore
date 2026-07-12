@@ -1,5 +1,5 @@
-data/
-races/
+/data/
+/races/
 tools/playwright/node_modules/
 web/node_modules/
 web/dist/
