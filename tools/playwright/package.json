@@ -1,0 +1,11 @@
+{
+  "name": "keiba-playwright",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "netkeibaから出馬表・競馬新聞・レース結果をPlaywrightで自動取得するCLI",
+  "main": "fetch-race.mjs",
+  "devDependencies": {
+    "playwright": "^1.55.0"
+  }
+}
