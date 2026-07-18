@@ -2,6 +2,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import { RaceListPage } from './pages/RaceListPage.tsx';
 import { RaceDetailPage } from './pages/RaceDetailPage.tsx';
 import { RulesLogPage } from './pages/RulesLogPage.tsx';
+import { SummaryPage } from './pages/SummaryPage.tsx';
 import { NotFoundPage } from './pages/NotFoundPage.tsx';
 
 export function App() {
@@ -12,6 +13,7 @@ export function App() {
           <Route path="/" element={<RaceListPage />} />
           <Route path="/races/:date/:dir" element={<RaceDetailPage />} />
           <Route path="/rules-log" element={<RulesLogPage />} />
+          <Route path="/summary" element={<SummaryPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>

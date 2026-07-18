@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { apiUrl, useApi } from '../api/client.ts';
 import type { RaceListItem, RaceStatus } from '../api/types.ts';
 import { StatusBadge } from '../components/StatusBadge.tsx';
+import { WeightRefreshedBadge } from '../components/WeightRefreshedBadge.tsx';
 import { Spinner, ErrorBox } from '../components/Spinner.tsx';
 
 const STATUS_FILTERS: (RaceStatus | 'すべて')[] = ['すべて', '未着手', '予想のみ', '施行済み(レビュー未)', '施行済み'];
@@ -33,7 +34,17 @@ export function RaceListPage() {
       if (!byDate.has(race.date)) byDate.set(race.date, []);
       byDate.get(race.date)!.push(race);
     }
-    return Array.from(byDate.entries());
+    return Array.from(byDate.entries()).map(([date, races]) => {
+      const byVenue = new Map<string, RaceListItem[]>();
+      for (const race of races) {
+        if (!byVenue.has(race.venue)) byVenue.set(race.venue, []);
+        byVenue.get(race.venue)!.push(race);
+      }
+      const venueGroups = Array.from(byVenue.entries()).sort(
+        ([, a], [, b]) => (a[0].startTime ?? '99:99').localeCompare(b[0].startTime ?? '99:99'),
+      );
+      return [date, venueGroups] as const;
+    });
   }, [data, statusFilter]);
 
   if (loading) return <Spinner />;
@@ -43,9 +54,14 @@ export function RaceListPage() {
     <div>
       <header className="page-header">
         <h1>競馬レースビューア</h1>
-        <Link to="/rules-log" className="header-link">
-          ルール適用ログ
-        </Link>
+        <div className="header-links">
+          <Link to="/summary" className="header-link">
+            収支サマリー
+          </Link>
+          <Link to="/rules-log" className="header-link">
+            ルール適用ログ
+          </Link>
+        </div>
       </header>
 
       <div className="filter-bar">
@@ -66,51 +82,59 @@ export function RaceListPage() {
 
       {grouped.length === 0 && <p className="empty-note">該当するレースがありません</p>}
 
-      {grouped.map(([date, races]) => (
+      {grouped.map(([date, venueGroups]) => (
         <section key={date} className="date-section">
           <h2>{formatDate(date)}</h2>
-          <div className="table-scroll">
-            <table className="race-list-table">
-              <thead>
-                <tr>
-                  <th>レース</th>
-                  <th>コース</th>
-                  <th>発走</th>
-                  <th>天候・馬場</th>
-                  <th>頭数</th>
-                  <th>ステータス</th>
-                </tr>
-              </thead>
-              <tbody>
-                {races.map((race) => (
-                  <tr
-                    key={race.dir}
-                    className="race-row"
-                    onClick={() => navigate(`/races/${race.date}/${encodeURIComponent(race.dir)}`)}
-                  >
-                    <td>
-                      <Link
-                        to={`/races/${race.date}/${encodeURIComponent(race.dir)}`}
-                        onClick={(e) => e.stopPropagation()}
+          {venueGroups.map(([venue, races]) => (
+            <div key={venue} className="venue-group">
+              <h3 className="venue-heading">{venue}</h3>
+              <div className="table-scroll">
+                <table className="race-list-table">
+                  <thead>
+                    <tr>
+                      <th>レース</th>
+                      <th>コース</th>
+                      <th>発走</th>
+                      <th>天候・馬場</th>
+                      <th>頭数</th>
+                      <th>ステータス</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {races.map((race) => (
+                      <tr
+                        key={race.dir}
+                        className="race-row"
+                        onClick={() => navigate(`/races/${race.date}/${encodeURIComponent(race.dir)}`)}
                       >
-                        {race.venue}
-                        {race.raceNumber}R {race.raceName}
-                      </Link>
-                    </td>
-                    <td>{race.course ?? '-'}</td>
-                    <td>{race.startTime ?? '-'}</td>
-                    <td>
-                      {race.weather ?? '-'} / {race.trackCondition ?? '-'}
-                    </td>
-                    <td>{race.headcount}</td>
-                    <td>
-                      <StatusBadge status={race.status} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                        <td>
+                          <Link
+                            to={`/races/${race.date}/${encodeURIComponent(race.dir)}`}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {race.venue}
+                            {race.raceNumber}R {race.raceName}
+                          </Link>
+                        </td>
+                        <td>{race.course ?? '-'}</td>
+                        <td>{race.startTime ?? '-'}</td>
+                        <td>
+                          {race.weather ?? '-'} / {race.trackCondition ?? '-'}
+                        </td>
+                        <td>{race.headcount}</td>
+                        <td>
+                          <div className="status-cell">
+                            <StatusBadge status={race.status} />
+                            <WeightRefreshedBadge weightRefreshedAt={race.weightRefreshedAt} />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
         </section>
       ))}
     </div>

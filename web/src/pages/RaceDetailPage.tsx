@@ -3,6 +3,7 @@ import { apiUrl, useApi } from '../api/client.ts';
 import type { RaceDetail } from '../api/types.ts';
 import { Spinner, ErrorBox } from '../components/Spinner.tsx';
 import { StatusBadge } from '../components/StatusBadge.tsx';
+import { WeightRefreshedBadge } from '../components/WeightRefreshedBadge.tsx';
 import { BackLink } from '../components/BackLink.tsx';
 import { Tabs, type TabDef } from '../components/Tabs.tsx';
 import { HorseTable } from '../components/HorseTable.tsx';
@@ -72,6 +73,7 @@ export function RaceDetailPage() {
           {data.raceNumber}R {data.raceName}
         </h1>
         <StatusBadge status={data.status} />
+        <WeightRefreshedBadge weightRefreshedAt={data.weightRefreshedAt} />
       </div>
 
       <Tabs tabs={tabs} defaultKey="shutuba" />

@@ -1,4 +1,5 @@
 import type { ResultEntry } from '../api/types.ts';
+import { wakuStyle, popularityStyle } from '../utils/raceColors.ts';
 
 export function ResultTable({ results }: { results: ResultEntry[] }) {
   if (!results || results.length === 0) {
@@ -31,8 +32,8 @@ export function ResultTable({ results }: { results: ResultEntry[] }) {
           {results.map((r, i) => (
             <tr key={i}>
               <td>{r.rank}</td>
-              <td>{r.wakuNum}</td>
-              <td>{r.horseNum}</td>
+              <td style={wakuStyle(r.wakuNum)}>{r.wakuNum}</td>
+              <td style={wakuStyle(r.wakuNum)}>{r.horseNum}</td>
               <td>{r.horseName}</td>
               <td>{r.sexAge}</td>
               <td>{r.weight}</td>
@@ -42,7 +43,7 @@ export function ResultTable({ results }: { results: ResultEntry[] }) {
               <td>{r.last3f}</td>
               <td>{r.corner}</td>
               <td>{r.odds}</td>
-              <td>{r.popularity}</td>
+              <td style={popularityStyle(r.popularity)}>{r.popularity}</td>
               <td>
                 {r.bodyWeight}
                 {r.bodyWeightDiff ? `(${r.bodyWeightDiff})` : ''}

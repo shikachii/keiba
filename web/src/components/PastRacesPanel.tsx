@@ -1,4 +1,5 @@
 import type { PastRace } from '../api/types.ts';
+import { popularityStyle } from '../utils/raceColors.ts';
 
 const ATTRIBUTE_ROWS: { key: keyof PastRace; label: string }[] = [
   { key: '着順', label: '着順' },
@@ -47,7 +48,10 @@ export function PastRacesPanel({ pastRaces }: { pastRaces: PastRace[] }) {
             <tr key={key}>
               <th>{label}</th>
               {pastRaces.map((r, i) => (
-                <td key={i} style={{ whiteSpace: 'pre-line' }}>
+                <td
+                  key={i}
+                  style={{ whiteSpace: 'pre-line', ...(key === '人気' ? popularityStyle(r[key]) : undefined) }}
+                >
                   {r[key] ?? ''}
                 </td>
               ))}

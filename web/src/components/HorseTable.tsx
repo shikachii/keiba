@@ -3,6 +3,7 @@ import type { NewspaperHorse } from '../api/types.ts';
 import { PastRacesPanel } from './PastRacesPanel.tsx';
 import { AchievementsTable } from './AchievementsTable.tsx';
 import { TrainingBlock } from './TrainingBlock.tsx';
+import { wakuStyle, popularityStyle } from '../utils/raceColors.ts';
 
 const COLUMN_COUNT = 12;
 
@@ -54,14 +55,14 @@ export function HorseTable({ horses }: { horses: NewspaperHorse[] }) {
                 <Fragment key={horse.馬番}>
                   <tr className="horse-row" onClick={() => toggle(horse.馬番)}>
                     <td>{isOpen ? '▼' : '▶'}</td>
-                    <td>{horse.枠番}</td>
-                    <td>{horse.馬番}</td>
+                    <td style={wakuStyle(horse.枠番)}>{horse.枠番}</td>
+                    <td style={wakuStyle(horse.枠番)}>{horse.馬番}</td>
                     <td>{horse.馬名}</td>
                     <td>{horse.性齢}</td>
                     <td>{horse.騎手}</td>
                     <td>{horse.斤量}</td>
                     <td>{horse.オッズ}</td>
-                    <td>{horse.人気}</td>
+                    <td style={popularityStyle(horse.人気)}>{horse.人気}</td>
                     <td>{horse.調教師}</td>
                     <td>{horse.脚質ローテ}</td>
                     <td>{horse.馬体重 || '-'}</td>

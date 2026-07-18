@@ -5,7 +5,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { listRaces, getRaceDetail, getRulesLog } from '../server/raceRepository.ts';
+import {
+  listRaces,
+  getRaceDetail,
+  getRulesLog,
+  getRuleStats,
+  getOddsScatterData,
+  getCourseStats,
+  listRaceSummaries,
+} from '../server/raceRepository.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = path.resolve(__dirname, '..', 'public', 'api');
@@ -28,6 +36,22 @@ for (const race of races) {
 const rulesLogContent = getRulesLog();
 writeJson(path.join(OUT_DIR, 'rules-log.json'), { content: rulesLogContent ?? '' });
 
+const summaries = listRaceSummaries();
+writeJson(path.join(OUT_DIR, 'summary.json'), summaries);
+
+const ruleStats = getRuleStats();
+writeJson(path.join(OUT_DIR, 'rule-stats.json'), ruleStats);
+
+const oddsScatter = getOddsScatterData();
+writeJson(path.join(OUT_DIR, 'odds-scatter.json'), oddsScatter);
+
+const courseStats = getCourseStats();
+writeJson(path.join(OUT_DIR, 'course-stats.json'), courseStats);
+
 console.log(`races.json: ${races.length}件`);
 console.log(`race detail: ${races.length}ファイル`);
 console.log(`rules-log.json: ${rulesLogContent ? rulesLogContent.length : 0}文字`);
+console.log(`summary.json: ${summaries.length}件`);
+console.log(`rule-stats.json: ${ruleStats.length}件`);
+console.log(`odds-scatter.json: ${oddsScatter.length}件`);
+console.log(`course-stats.json: ${courseStats.length}件`);

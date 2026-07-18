@@ -1,5 +1,13 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { getRaceDetail, getRulesLog, listRaces } from './raceRepository.ts';
+import {
+  getCourseStats,
+  getOddsScatterData,
+  getRaceDetail,
+  getRulesLog,
+  getRuleStats,
+  listRaces,
+  listRaceSummaries,
+} from './raceRepository.ts';
 
 function sendJson(res: ServerResponse, status: number, body: unknown) {
   res.statusCode = status;
@@ -23,6 +31,26 @@ export function apiMiddleware(req: IncomingMessage, res: ServerResponse, next: (
 
   if (pathname === '/api/races.json') {
     sendJson(res, 200, listRaces());
+    return;
+  }
+
+  if (pathname === '/api/summary.json') {
+    sendJson(res, 200, listRaceSummaries());
+    return;
+  }
+
+  if (pathname === '/api/rule-stats.json') {
+    sendJson(res, 200, getRuleStats());
+    return;
+  }
+
+  if (pathname === '/api/odds-scatter.json') {
+    sendJson(res, 200, getOddsScatterData());
+    return;
+  }
+
+  if (pathname === '/api/course-stats.json') {
+    sendJson(res, 200, getCourseStats());
     return;
   }
 

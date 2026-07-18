@@ -15,6 +15,18 @@ export interface RaceListItem {
   hasResult: boolean;
   hasReview: boolean;
   status: RaceStatus;
+  weightRefreshedAt: string | null;
+}
+
+export interface RaceSummaryItem {
+  date: string;
+  dir: string;
+  venue: string;
+  raceNumber: number;
+  raceName: string;
+  profitYen: number | null;
+  recoveryRatePercent: number | null;
+  betsMarkdown: string | null;
 }
 
 export interface PastRace {
@@ -139,6 +151,63 @@ export interface ResultData {
   payouts: Record<string, PayoutEntry>;
 }
 
+export interface AnalysisMark {
+  horseNumber: number | null;
+  horseName: string | null;
+  popularity: number | null;
+  odds: number | null;
+  mark: string | null;
+}
+
+export interface AnalysisBet {
+  type: string | null;
+  points: string[];
+  unitYen: number | null;
+}
+
+export interface AnalysisMeta {
+  schema: string;
+  race: {
+    date: string | null;
+    venue: string | null;
+    raceNumber: number | null;
+    raceName: string | null;
+    course: string | null;
+    headcount: number | null;
+    favoriteOdds: number | null;
+  };
+  favoriteJudgement: string | null;
+  paceForecast: string | null;
+  marks: AnalysisMark[];
+  rulesApplied: string[];
+  bets: AnalysisBet[];
+}
+
+export interface ReviewRuleLogRow {
+  ruleId: string;
+  result: string;
+  note: string | null;
+}
+
+export interface ReviewMeta {
+  schema: string;
+  race: {
+    date: string | null;
+    venue: string | null;
+    raceNumber: number | null;
+    raceName: string | null;
+  };
+  pace: { forecast: string | null; actual: string | null };
+  result: { top3: number[] };
+  rulesLog: ReviewRuleLogRow[];
+  bets: {
+    totalStakeYen: number | null;
+    totalPayoutYen: number | null;
+    profitYen: number | null;
+    recoveryRatePercent: number | null;
+  };
+}
+
 export interface RaceDetail {
   date: string;
   dir: string;
@@ -151,8 +220,38 @@ export interface RaceDetail {
   result: ResultData | null;
   analysisMd: string | null;
   reviewMd: string | null;
+  analysisMeta: AnalysisMeta | null;
+  reviewMeta: ReviewMeta | null;
+  weightRefreshedAt: string | null;
 }
 
 export interface RulesLogResponse {
   content: string;
+}
+
+export interface RuleStatItem {
+  ruleId: string;
+  okCount: number;
+  ngCount: number;
+  warnCount: number;
+}
+
+export interface OddsScatterPoint {
+  date: string;
+  dir: string;
+  venue: string;
+  raceNumber: number;
+  horseNumber: number;
+  horseName: string | null;
+  popularity: number;
+  odds: number;
+  mark: string | null;
+  resultRank: number | null;
+}
+
+export interface CourseStatItem {
+  course: string;
+  raceCount: number;
+  profitYen: number;
+  knownProfitCount: number;
 }
