@@ -1,10 +1,18 @@
+import { Fragment } from 'react';
 import type { AnalysisBet } from '../api/types.ts';
+import { wakuStyle } from '../utils/raceColors.ts';
 
 function formatYen(n: number): string {
   return `${n.toLocaleString()}円`;
 }
 
-export function BetsSummary({ bets }: { bets: AnalysisBet[] }) {
+export function BetsSummary({
+  bets,
+  wakuByHorseNumber,
+}: {
+  bets: AnalysisBet[];
+  wakuByHorseNumber?: Map<string, string>;
+}) {
   const withPoints = bets.filter((b) => b.points.length > 0);
   if (withPoints.length === 0) return null;
 
@@ -23,11 +31,24 @@ export function BetsSummary({ bets }: { bets: AnalysisBet[] }) {
               </span>
             </div>
             <div className="bets-summary-points">
-              {bet.points.map((p) => (
-                <span key={p} className="bets-summary-point">
-                  {p}
-                </span>
-              ))}
+              {bet.points.map((p) => {
+                const horseNumbers = p.split('-');
+                return (
+                  <span key={p} className="bets-summary-point">
+                    {horseNumbers.map((n, idx) => (
+                      <Fragment key={idx}>
+                        {idx > 0 && <span className="bets-summary-point-sep">-</span>}
+                        <span
+                          className="bets-summary-point-num"
+                          style={wakuByHorseNumber ? wakuStyle(wakuByHorseNumber.get(n.trim())) : undefined}
+                        >
+                          {n}
+                        </span>
+                      </Fragment>
+                    ))}
+                  </span>
+                );
+              })}
             </div>
           </div>
         );

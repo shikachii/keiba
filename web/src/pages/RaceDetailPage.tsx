@@ -30,6 +30,8 @@ export function RaceDetailPage() {
     marks.length > 0
       ? new Map(marks.map((m) => [String(m.horseNumber ?? ''), m.mark]))
       : undefined;
+  const wakuByHorseNumber =
+    horses.length > 0 ? new Map(horses.map((h) => [h.馬番, h.枠番])) : undefined;
 
   const tabs: TabDef[] = [
     {
@@ -59,8 +61,8 @@ export function RaceDetailPage() {
       disabledReason: '予想がまだ作成されていません',
       content: data.analysisMd ? (
         <div>
-          <MarksSummary marks={marks} />
-          <BetsSummary bets={data.analysisMeta?.bets ?? []} />
+          <MarksSummary marks={marks} wakuByHorseNumber={wakuByHorseNumber} />
+          <BetsSummary bets={data.analysisMeta?.bets ?? []} wakuByHorseNumber={wakuByHorseNumber} />
           <MarkdownView content={data.analysisMd} />
         </div>
       ) : null,

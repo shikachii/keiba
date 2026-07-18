@@ -367,31 +367,28 @@ tbody tr:nth-child(even) {
   text-align: center;
 }
 
-.marks-summary {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 16px;
-  margin: 0 0 16px;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--row-alt);
-}
-
-.marks-summary-item {
+.marks-summary-toggle {
   display: inline-flex;
-  align-items: baseline;
-  gap: 4px;
-  white-space: nowrap;
-}
-
-.marks-summary-horse {
-  font-weight: 600;
-}
-
-.marks-summary-odds {
-  color: var(--muted);
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 8px;
   font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.marks-summary-scroll {
+  margin: 0 0 16px;
+}
+
+.marks-summary-table {
+  width: auto;
+  min-width: 320px;
+}
+
+.marks-summary-table td,
+.marks-summary-table th {
+  white-space: nowrap;
 }
 
 .bets-summary {
@@ -435,13 +432,28 @@ tbody tr:nth-child(even) {
 }
 
 .bets-summary-point {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 2px 8px;
+  padding: 2px 6px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.9rem;
   background: var(--row-alt);
+  gap: 2px;
+}
+
+.bets-summary-point-sep {
+  color: var(--muted);
+}
+
+.bets-summary-point-num {
+  display: inline-block;
+  min-width: 1.4em;
+  text-align: center;
+  border-radius: 3px;
+  padding: 0 3px;
+  font-weight: 700;
 }
 
 .chart-tooltip {
