@@ -5,9 +5,15 @@ import { AchievementsTable } from './AchievementsTable.tsx';
 import { TrainingBlock } from './TrainingBlock.tsx';
 import { wakuStyle, popularityStyle } from '../utils/raceColors.ts';
 
-const COLUMN_COUNT = 12;
+const BASE_COLUMN_COUNT = 12;
 
-export function HorseTable({ horses }: { horses: NewspaperHorse[] }) {
+export function HorseTable({
+  horses,
+  marksByHorseNumber,
+}: {
+  horses: NewspaperHorse[];
+  marksByHorseNumber?: Map<string, string | null>;
+}) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   const toggle = (horseNum: string) => {
@@ -23,6 +29,7 @@ export function HorseTable({ horses }: { horses: NewspaperHorse[] }) {
   const collapseAll = () => setExpanded(new Set());
 
   const sorted = [...horses].sort((a, b) => Number(a.馬番) - Number(b.馬番));
+  const columnCount = marksByHorseNumber ? BASE_COLUMN_COUNT + 1 : BASE_COLUMN_COUNT;
 
   return (
     <div>
@@ -37,6 +44,7 @@ export function HorseTable({ horses }: { horses: NewspaperHorse[] }) {
               <th></th>
               <th>枠</th>
               <th>馬番</th>
+              {marksByHorseNumber && <th>印</th>}
               <th>馬名</th>
               <th>性齢</th>
               <th>騎手</th>
@@ -57,6 +65,9 @@ export function HorseTable({ horses }: { horses: NewspaperHorse[] }) {
                     <td>{isOpen ? '▼' : '▶'}</td>
                     <td style={wakuStyle(horse.枠番)}>{horse.枠番}</td>
                     <td style={wakuStyle(horse.枠番)}>{horse.馬番}</td>
+                    {marksByHorseNumber && (
+                      <td className="mark-cell">{marksByHorseNumber.get(horse.馬番) || '-'}</td>
+                    )}
                     <td>{horse.馬名}</td>
                     <td>{horse.性齢}</td>
                     <td>{horse.騎手}</td>
@@ -69,7 +80,7 @@ export function HorseTable({ horses }: { horses: NewspaperHorse[] }) {
                   </tr>
                   {isOpen && (
                     <tr className="horse-detail-row">
-                      <td colSpan={COLUMN_COUNT}>
+                      <td colSpan={columnCount}>
                         <div className="horse-detail">
                           <h4>前走データ</h4>
                           <PastRacesPanel pastRaces={horse.前走データ ?? []} />

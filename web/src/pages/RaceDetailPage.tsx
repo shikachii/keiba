@@ -11,6 +11,8 @@ import { ResultTable } from '../components/ResultTable.tsx';
 import { LapCornerPace } from '../components/LapCornerPace.tsx';
 import { PayoutTable } from '../components/PayoutTable.tsx';
 import { MarkdownView } from '../components/MarkdownView.tsx';
+import { MarksSummary } from '../components/MarksSummary.tsx';
+import { BetsSummary } from '../components/BetsSummary.tsx';
 
 export function RaceDetailPage() {
   const { date, dir } = useParams<{ date: string; dir: string }>();
@@ -23,12 +25,17 @@ export function RaceDetailPage() {
 
   const horseData = data.newspaper ?? data.shutuba;
   const horses = horseData?.出走馬 ?? [];
+  const marks = data.analysisMeta?.marks ?? [];
+  const marksByHorseNumber =
+    marks.length > 0
+      ? new Map(marks.map((m) => [String(m.horseNumber ?? ''), m.mark]))
+      : undefined;
 
   const tabs: TabDef[] = [
     {
       key: 'shutuba',
       label: '出馬表',
-      content: <HorseTable horses={horses} />,
+      content: <HorseTable horses={horses} marksByHorseNumber={marksByHorseNumber} />,
     },
     {
       key: 'result',
@@ -50,7 +57,13 @@ export function RaceDetailPage() {
       label: '予想',
       disabled: !data.analysisMd,
       disabledReason: '予想がまだ作成されていません',
-      content: data.analysisMd ? <MarkdownView content={data.analysisMd} /> : null,
+      content: data.analysisMd ? (
+        <div>
+          <MarksSummary marks={marks} />
+          <BetsSummary bets={data.analysisMeta?.bets ?? []} />
+          <MarkdownView content={data.analysisMd} />
+        </div>
+      ) : null,
     },
     {
       key: 'review',
