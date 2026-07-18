@@ -765,3 +765,80 @@ tbody tr:nth-child(even) {
 .result-card-detail dd {
   margin: 0;
 }
+
+.rl-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+
+.rl-card {
+  padding: 6px 8px 7px;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.rl-card.next {
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.rl-row-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rl-racenum {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--header-bg);
+  color: var(--muted);
+  border-radius: 4px;
+  padding: 1px 5px;
+  flex-shrink: 0;
+}
+
+.rl-next-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 3px;
+  padding: 1px 5px;
+  flex-shrink: 0;
+}
+
+.rl-name {
+  font-weight: 700;
+  font-size: 0.88rem;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--fg);
+}
+
+.rl-time {
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  margin-left: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.rl-meta {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin: 2px 0 0;
+}
+
+.rl-status-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}

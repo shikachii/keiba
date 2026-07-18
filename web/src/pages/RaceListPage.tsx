@@ -114,7 +114,7 @@ export function RaceListPage() {
             return (
             <div key={venue} className="venue-group">
               <h3 className="venue-heading">{venue}</h3>
-              <div className="table-scroll">
+              <div className="table-scroll desktop-only">
                 <table className="race-list-table">
                   <thead>
                     <tr>
@@ -159,6 +159,36 @@ export function RaceListPage() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+
+              <div className="rl-list mobile-only">
+                {races.map((race) => (
+                  <div
+                    key={race.dir}
+                    className={race.dir === nextRaceDir ? 'rl-card next' : 'rl-card'}
+                    onClick={() => navigate(`/races/${race.date}/${encodeURIComponent(race.dir)}`)}
+                  >
+                    <div className="rl-row-top">
+                      <span className="rl-racenum">{race.raceNumber}R</span>
+                      {race.dir === nextRaceDir && <span className="rl-next-badge">次走</span>}
+                      <Link
+                        to={`/races/${race.date}/${encodeURIComponent(race.dir)}`}
+                        className="rl-name"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {race.raceName}
+                      </Link>
+                      <span className="rl-time">{race.startTime ?? '-'}</span>
+                    </div>
+                    <div className="rl-meta">
+                      {race.course ?? '-'} ・ {race.headcount}頭 ・ {race.weather ?? '-'}/{race.trackCondition ?? '-'}
+                    </div>
+                    <div className="rl-status-row">
+                      <StatusBadge status={race.status} />
+                      <WeightRefreshedBadge weightRefreshedAt={race.weightRefreshedAt} />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
             );
