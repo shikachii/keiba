@@ -38,3 +38,17 @@ export function popularityStyle(popularity: string | null | undefined): CSSPrope
   const c = POPULARITY_COLORS[n];
   return c ? { ...c, textAlign: 'center' } : undefined;
 }
+
+// 予想印の慣用色: 本命=赤 対抗=青 単穴=緑 連下=黄土 消し=グレー
+const MARK_CLASSES: Record<string, string> = {
+  '◎': 'mark-honmei',
+  '○': 'mark-taikou',
+  '▲': 'mark-tananna',
+  '△': 'mark-renka',
+  '✕': 'mark-keshi',
+};
+
+export function markClass(mark: string | null | undefined): string {
+  if (!mark) return '';
+  return MARK_CLASSES[mark] ?? '';
+}

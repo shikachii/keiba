@@ -8,6 +8,10 @@
   --header-bg: #f0f0f2;
   --link: #2563eb;
   --accent: #2563eb;
+  --mark-honmei: #d6293e;
+  --mark-taikou: #2563eb;
+  --mark-tananna: #1f9e4c;
+  --mark-renka: #b4790f;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,6 +24,22 @@
     --header-bg: #232329;
     --link: #60a5fa;
     --accent: #60a5fa;
+    --mark-honmei: #f0576a;
+    --mark-taikou: #60a5fa;
+    --mark-tananna: #4ade80;
+    --mark-renka: #e0ac4a;
+  }
+}
+
+@media (max-width: 640px) {
+  .desktop-only {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) {
+  .mobile-only {
+    display: none;
   }
 }
 
@@ -40,6 +60,18 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   padding: 16px 24px 64px;
+}
+
+@media (max-width: 640px) {
+  .app-container {
+    padding: 10px 10px 40px;
+  }
+
+  th,
+  td {
+    padding: 3px 5px;
+    font-size: 0.82rem;
+  }
 }
 
 a {
@@ -156,6 +188,8 @@ h4 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-bottom: 12px;
 }
 
@@ -318,6 +352,7 @@ tbody tr:nth-child(even) {
   gap: 4px;
   border-bottom: 2px solid var(--border);
   margin-bottom: 16px;
+  overflow-x: auto;
 }
 
 .tab-button {
@@ -329,6 +364,8 @@ tbody tr:nth-child(even) {
   border-bottom: 2px solid transparent;
   margin-bottom: -2px;
   font-size: 0.95rem;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .tab-button.active {
@@ -344,7 +381,8 @@ tbody tr:nth-child(even) {
 .race-detail-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 8px 12px;
 }
 
 .pace-badge {
@@ -495,4 +533,235 @@ tbody tr:nth-child(even) {
   color: var(--muted);
   font-size: 0.8rem;
   margin: 4px 0 0;
+}
+
+.horse-card-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+
+.horse-card {
+  padding: 5px 4px 6px;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.3;
+}
+
+.horse-card-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.horse-card-row:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.horse-card-waku {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.66rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.horse-card-num {
+  font-weight: 700;
+  font-size: 0.72rem;
+  color: var(--muted);
+  min-width: 1.3em;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.horse-card-mark {
+  width: 16px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 0.88rem;
+  flex-shrink: 0;
+}
+
+.horse-card-mark.mark-honmei { color: var(--mark-honmei); }
+.horse-card-mark.mark-taikou { color: var(--mark-taikou); }
+.horse-card-mark.mark-tananna { color: var(--mark-tananna); }
+.horse-card-mark.mark-renka { color: var(--mark-renka); }
+.horse-card-mark.mark-keshi { color: var(--muted); }
+
+.horse-card-name {
+  font-weight: 700;
+  font-size: 0.88rem;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.horse-card-weight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  min-width: 40px;
+  margin-left: 4px;
+}
+
+.horse-card-weight-value {
+  font-weight: 700;
+  font-size: 0.78rem;
+}
+
+.horse-card-weight-diff {
+  font-size: 0.62rem;
+  margin-top: 1px;
+  color: var(--muted);
+}
+
+.horse-card-weight-diff.up {
+  color: var(--mark-honmei);
+}
+
+.horse-card-weight-diff.down {
+  color: var(--mark-taikou);
+}
+
+.horse-card-odds {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  min-width: 46px;
+  margin-left: 5px;
+}
+
+.horse-card-odds-value {
+  font-weight: 700;
+  font-size: 0.86rem;
+}
+
+.horse-card-pop {
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 0 5px;
+  border-radius: 999px;
+  margin-top: 1px;
+  background: var(--header-bg);
+  color: var(--muted);
+}
+
+.horse-card-meta {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin: 1px 0 0 38px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.horse-card-more {
+  margin: 2px 0 0 38px;
+  font-size: 0.68rem;
+  color: var(--accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  text-align: left;
+}
+
+.horse-card-more-arrow {
+  display: inline-block;
+  transition: transform 0.15s ease;
+  font-size: 0.6rem;
+}
+
+.horse-card-more[aria-expanded="true"] .horse-card-more-arrow {
+  transform: rotate(180deg);
+}
+
+.horse-card-detail {
+  margin: 6px 0 0 38px;
+  padding: 8px 10px;
+  background: var(--row-alt);
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .horse-card-more-arrow {
+    transition: none;
+  }
+}
+
+.result-card-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+
+.result-card {
+  padding: 5px 4px 6px;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.3;
+}
+
+.result-card.rank-1 {
+  background: rgba(230, 60, 100, 0.1);
+}
+
+.result-card.rank-2 {
+  background: rgba(96, 165, 250, 0.12);
+}
+
+.result-card.rank-3 {
+  background: rgba(244, 197, 48, 0.14);
+}
+
+.result-card-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.result-card-row:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.result-card-rank {
+  min-width: 1.6em;
+  text-align: center;
+  font-weight: 900;
+  font-size: 0.82rem;
+  flex-shrink: 0;
+}
+
+.result-card-detail {
+  margin: 6px 0 0 38px;
+  padding: 8px 10px;
+  background: var(--row-alt);
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 3px 10px;
+  font-size: 0.78rem;
+}
+
+.result-card-detail dt {
+  color: var(--muted);
+}
+
+.result-card-detail dd {
+  margin: 0;
 }
