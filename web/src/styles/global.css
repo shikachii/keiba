@@ -33,13 +33,13 @@
 
 @media (max-width: 640px) {
   .desktop-only {
-    display: none;
+    display: none !important;
   }
 }
 
 @media (min-width: 641px) {
   .mobile-only {
-    display: none;
+    display: none !important;
   }
 }
 
