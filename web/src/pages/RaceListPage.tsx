@@ -12,10 +12,34 @@ function formatDate(date: string): string {
   return `${date.slice(0, 4)}年${date.slice(4, 6)}月${date.slice(6, 8)}日`;
 }
 
+function pad2(n: number): string {
+  return String(n).padStart(2, '0');
+}
+
+// ページ表示時点（マウント時）の日付・時刻を基準に「次のレース」を判定する。
+// リアルタイム更新は不要なため、以降は時間が経っても再計算しない。
+function todayStr(now: Date): string {
+  return `${now.getFullYear()}${pad2(now.getMonth() + 1)}${pad2(now.getDate())}`;
+}
+
+function nowHHMM(now: Date): string {
+  return `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
+}
+
+function findNextRaceDir(date: string, races: RaceListItem[], today: string, nowTime: string): string | null {
+  if (date !== today) return null;
+  const upcoming = races.filter((r) => r.startTime && r.startTime >= nowTime);
+  if (upcoming.length === 0) return null;
+  return upcoming.reduce((min, r) => (r.startTime! < min.startTime! ? r : min)).dir;
+}
+
 export function RaceListPage() {
   const { data, loading, error } = useApi<RaceListItem[]>(apiUrl('races.json'));
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const now = useMemo(() => new Date(), []);
+  const today = todayStr(now);
+  const nowTime = nowHHMM(now);
 
   const statusFilter = (searchParams.get('status') as RaceStatus | null) ?? 'すべて';
   const setStatusFilter = (value: RaceStatus | 'すべて') => {
@@ -85,7 +109,9 @@ export function RaceListPage() {
       {grouped.map(([date, venueGroups]) => (
         <section key={date} className="date-section">
           <h2>{formatDate(date)}</h2>
-          {venueGroups.map(([venue, races]) => (
+          {venueGroups.map(([venue, races]) => {
+            const nextRaceDir = findNextRaceDir(date, races, today, nowTime);
+            return (
             <div key={venue} className="venue-group">
               <h3 className="venue-heading">{venue}</h3>
               <div className="table-scroll">
@@ -104,10 +130,11 @@ export function RaceListPage() {
                     {races.map((race) => (
                       <tr
                         key={race.dir}
-                        className="race-row"
+                        className={race.dir === nextRaceDir ? 'race-row race-row-next' : 'race-row'}
                         onClick={() => navigate(`/races/${race.date}/${encodeURIComponent(race.dir)}`)}
                       >
                         <td>
+                          {race.dir === nextRaceDir && <span className="next-race-badge">次走</span>}
                           <Link
                             to={`/races/${race.date}/${encodeURIComponent(race.dir)}`}
                             onClick={(e) => e.stopPropagation()}
@@ -134,7 +161,8 @@ export function RaceListPage() {
                 </table>
               </div>
             </div>
-          ))}
+            );
+          })}
         </section>
       ))}
     </div>
