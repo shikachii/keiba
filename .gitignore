@@ -1,5 +1,6 @@
 /data/
-/races/
+/races/*
+!/races/CLAUDE.md
 tools/playwright/node_modules/
 web/node_modules/
 web/dist/
