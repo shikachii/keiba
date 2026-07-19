@@ -29,3 +29,14 @@ description: netkeibaから出馬表・競馬新聞・レース結果をPlaywrig
 
 ### エラー時の対応
 netkeiba側のページ構造変化・タイムアウト・アクセス制限等でPlaywright取得が失敗した場合は、エラー内容をそのままユーザーに伝え、`tools/chrome-extension`（要 `python3 tools/server.py` 起動）による手動取得へのフォールバックを案内する。
+
+## 直前再取得（オッズ・人気・馬体重のみ更新したい場合）
+
+`/analysis`のStep7.5（直前更新）向けに発走前30分〜1時間で再取得する場合は`shutuba`のみで足りる（オッズ・人気・馬体重は`shutuba.json`にも`newspaper.json`と同じ抽出ロジックで含まれる。厩舎コメント等の固定情報しか差分がない`newspaper`の再取得は不要）。
+
+### 手順
+1. 既にrace_idが判明している場合はStep1（race_idの特定）を省略してよい。
+2. `node fetch-race.mjs shutuba <race_id>`（作業ディレクトリは`tools/playwright/`）のみ実行する。`all`は使わない（newspaperの再取得で不要な待機時間が発生するため）。
+3. 保存された`shutuba.json`のパスを報告し、`/analysis`のStep7.5実行を促す。
+
+`shutuba.json`は同一パスを毎回上書きするため、直前更新の「更新前」の基準値には`newspaper.json`（Step3で使用済みの値）を用いる。
